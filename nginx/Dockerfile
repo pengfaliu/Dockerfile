@@ -5,12 +5,15 @@
 #
 
 # Pull base image.dockerhub.io
-FROM fapeng/centos-basic:latest
+FROM fapeng/centos:test
 
-# Install Nginx.
-RUN \
-  yum install nginx && \
-  chown -R www-data:www-data /var/lib/nginx
+LABEL maintainer="pengfaliu@163.com"
+
+#set enviroment   locale & timezone
+RUN cp -p /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+	cp -p conf/nginx.repo /yum/repo.d/nginx.repo && \
+	yum install -y nginx && \
+	yum clean all
 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
@@ -18,9 +21,13 @@ VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/v
 # Define working directory.
 WORKDIR /etc/nginx
 
+ADD run.sh /run.sh
+RUN chmod 775 /run.sh
+
 # Define default command.
-CMD ["nginx"]
+CMD ["/run.sh"]
 
 # Expose ports.
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80/tcp
+EXPOSE 443/tcp
+
