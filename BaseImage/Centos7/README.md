@@ -18,5 +18,6 @@ python2-pip
 
 # 更改了下面的变更
 echo 7 > appliance.d/etc/yum/vars/releasever
+
 echo `uuidgen` >  appliance.d/etc/hostname
 
