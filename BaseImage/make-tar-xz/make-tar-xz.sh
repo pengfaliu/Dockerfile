@@ -28,7 +28,7 @@ if [ ! -d "$WORKDIR" ]; then
 fi
 #beginning..
 cd $WORKDIR
-supermin5 -v --prepare bash coreutils python yum epel-release -o supermin.d/
+supermin5 -v --prepare bash coreutils python yum epel-release yum-plugin-ovl -o supermin.d/
 supermin5 -v --build --format chroot supermin.d -o appliance.d/
 echo 7 > appliance.d/etc/yum/vars/releasever
 echo `uuidgen` >  appliance.d/etc/hostname
